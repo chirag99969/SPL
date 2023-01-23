@@ -74,6 +74,7 @@ sourcetype="aws:cloudwatch:guardduty" Type="PrivilegeEscalation:Kubernetes/Privi
 
 ## Ec2 Querying IPs associated with Tor Nodes
 ```
+sourcetype="aws:cloudwatch:guardduty" Type="UnauthorizedAccess:EC2/TorClient"
 | stats count values(Resource.InstanceDetails.InstanceId) as IntanceId values(Resource.InstanceDetails.NetworkInterfaces{}.PublicIp) as PublicIp values(Resource.InstanceDetails.NetworkInterfaces{}.SecurityGroups{}.GroupId) as sgIds values(Resource.InstanceDetails.NetworkInterfaces{}.SubnetId) as subnets values(Resource.InstanceDetails.NetworkInterfaces{}.VpcId) as vpcIds values(Service.Action.NetworkConnectionAction.RemoteIpDetails.City.CityName) as city values(Service.Action.NetworkConnectionAction.RemoteIpDetails.Country.CountryName) as country values(Service.Action.NetworkConnectionAction.RemoteIpDetails.IpAddressV4) as remoteIps values(Service.Action.NetworkConnectionAction.RemoteIpDetails.Organization.AsnOrg) as ORGs values(Service.Action.NetworkConnectionAction.RemotePortDetails.Port) as PortNo values(Service.Action.NetworkConnectionAction.RemotePortDetails.PortName) as Portname by _time Region
 ```
 
