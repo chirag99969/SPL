@@ -1,9 +1,4 @@
-## Focus is on developing SPL for guardduty findings/logs. 
 
-## Some of the adhoc tasks to be done
-* Stood AWS Ec2 instance
-* Splunk Installation
-* Ingesting Guardduty findings in Splunk
 
 # SPL for guardduty findings
 
