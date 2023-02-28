@@ -129,6 +129,21 @@ index=main sourcetype=access_combined_wcookie action=purchase
 
 # eval 
 
+## eval UC1
+```
+index=main sourcetype=access_combined_wcookie 
+| eval kbytes = round(bytes/1024, 2)
+```
+<img width="1773" alt="image" src="https://user-images.githubusercontent.com/69359027/221836512-e4a9922b-d2ac-4237-83da-cf746c39f713.png">
+
+## eval UC 2 (conditional functions)
+```
+index=main sourcetype=secure-2
+| eval result= if(like(_raw, "%Failed password%"), "failed", "success")
+```
+<img width="1539" alt="image" src="https://user-images.githubusercontent.com/69359027/221838655-3fc76e5f-fa76-44fe-8351-da7ea5e87de7.png">
+
+
 
 
 
