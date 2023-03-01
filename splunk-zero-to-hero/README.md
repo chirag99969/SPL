@@ -159,6 +159,45 @@ index=main sourcetype="access_combined_wcookie"
 <img width="1470" alt="image" src="https://user-images.githubusercontent.com/69359027/221842102-a8e6a39e-bf8e-49b5-aea9-19e1ec014683.png">
 
 
+# 3 timechart
+
+## 3.11 chart
+```
+index=main sourcetype="access_combined_wcookie" 
+|  chart count by action status
+```
+<img width="1782" alt="image" src="https://user-images.githubusercontent.com/69359027/221845296-834653d6-ace4-4ab8-be6a-8dc12fef476d.png">
+
+## 3.12 timchart UC1
+```
+index=main sourcetype="secure-2" "Failed password"
+| timechart count
+```
+<img width="1779" alt="image" src="https://user-images.githubusercontent.com/69359027/221845938-13c4b8dc-db4c-49e5-85a9-09e9b5d0e7f4.png">
+
+## 3.13 timechart UC 2 (timewrap) multiple time frames
+```
+index=_internal log_level=WARN 
+| timechart count  span=1h 
+| timewrap 1d
+```
+<img width="1790" alt="image" src="https://user-images.githubusercontent.com/69359027/221848136-4cc572fa-a7a7-4d09-ad9a-3696c8d3c880.png">
+
+# 4 Fields and fields extraction 
+
+## 4.1 Using time fields
+```
+index=main sourcetype="access_combined_wcookie" action=purchase date_wday IN (saturday, sunday) 
+| stats count by date_hour
+| sort date_hour 
+| rename date_hour as "Hour of the day", count as "No of purchases"
+```
+<img width="1788" alt="image" src="https://user-images.githubusercontent.com/69359027/221855205-ada3902d-72fe-4e94-b0ea-91bf94128781.png">
+
+## 4.2 Using the field extraction wizard
+* Demo
+
+## 4.3 Using rex command
 
 
 
