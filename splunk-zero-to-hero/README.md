@@ -1,3 +1,13 @@
+## Splunk Installation
+```
+wget -O splunk-9.0.3-dd0128b1f8cd-linux-2.6-amd64.deb "https://download.splunk.com/products/splunk/releases/9.0.3/linux/splunk-9.0.3-dd0128b1f8cd-linux-2.6-amd64.deb"
+mv splunk-9.0.3-dd0128b1f8cd-linux-2.6-amd64.deb /tmp
+cd /tmp
+sudo dpkg -i splunk-9.0.3-dd0128b1f8cd-linux-2.6-amd64.deb 
+sudo /opt/splunk/bin/splunk enable boot-start --accept-license --answer-yes
+sudo service splunk start
+```
+
 ## sourcetype 
 
 vendor_sales
