@@ -209,6 +209,94 @@ index=main sourcetype="access_combined_wcookie" action=purchase date_wday IN (sa
 
 ## 4.3 Using rex command
 
+### 4.3.1 rex command
+
+```
+index=main sourcetype="secure-2"
+| rex "from (?<IP_ADDRESS>\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}")
+```
+<img width="1536" alt="image" src="https://user-images.githubusercontent.com/69359027/222475147-6494ecb8-7408-4d6e-a316-138d4d655444.png">
+
+### 4.3.2 rex command
+
+```
+index=main sourcetype="secure-2"
+| rex "from (?<IP_ADDRESS>[\S]+)"
+```
+
+### 4.3.3 iplocation
+
+```
+index=main sourcetype="secure-2"
+| rex "from (?<IP_ADDRESS>[\S]+)"
+| search IP_ADDRESS=*
+| iplocation IP_ADDRESS
+| stats count by Country
+```
+
+<img width="1418" alt="image" src="https://user-images.githubusercontent.com/69359027/222476021-cb77f49c-2d56-49fd-a23e-07bb02359f97.png">
+
+### 4.3.4 geostats
+
+```
+index=main sourcetype="secure-2"
+| rex "from (?<IP_ADDRESS>[\S]+)"
+| search IP_ADDRESS=*
+| iplocation IP_ADDRESS
+| geostats count by Region
+```
+
+<img width="1768" alt="image" src="https://user-images.githubusercontent.com/69359027/222478148-fd9788ef-2ef8-455b-8062-034660cc7e7b.png">
+
+
+### 4.3.5 timechart
+
+```
+index=main sourcetype="secure-2"
+| rex "from (?<IP_ADDRESS>[\S]+)"
+| search IP_ADDRESS=*
+| iplocation IP_ADDRESS
+| timechart count by Country
+```
+<img width="1764" alt="image" src="https://user-images.githubusercontent.com/69359027/222479068-4152b325-9021-4f86-ad71-818d298e7b30.png">
+
+
+## 5 Grouping Events and using lookup
+
+```
+index=main sourcetype="access_combined_wcookie" 
+| transaction JSESSIONID clientip
+```
+
+```
+index=main sourcetype="access_combined_wcookie" 
+| transaction JSESSIONID clientip
+| where duration > 7
+```
+
+```
+index=main sourcetype="access_combined_wcookie" 
+| transaction JSESSIONID clientip
+| timechart avg(duration) as "Average Session Seconds"
+```
+
+```
+index=main sourcetype="access_combined_wcookie" 
+| transaction JSESSIONID clientip
+| timechart span=1h avg(duration) as "Average Session Seconds"
+```
+
+```
+index=main sourcetype="access_combined_wcookie" 
+| transaction JSESSIONID clientip
+| stats max(duration) as "Longest Session"
+```
+```
+index=main sourcetype="access_combined_wcookie" 
+| transaction JSESSIONID clientip startswith="action=view" endswith="action=purchase" 
+| stats count  values(action) values(duration) as durat by JSESSIONID _time 
+| sort -durat
+```
 
 
 
