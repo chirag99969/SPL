@@ -1,8 +1,3 @@
-# BUY me a coffe ( like this ?)
-## INDIAN Users (UPI ID) --- chirag99969@oksbi
-## International Users (Paypal username) --- @cybersecnerd
-
-
 ## Splunk Installation
 ```
 wget -O splunk-9.0.3-dd0128b1f8cd-linux-2.6-amd64.deb "https://download.splunk.com/products/splunk/releases/9.0.3/linux/splunk-9.0.3-dd0128b1f8cd-linux-2.6-amd64.deb"
@@ -268,40 +263,116 @@ index=main sourcetype="secure-2"
 
 ## 5 Grouping Events and using lookup
 
+### 5.1
 ```
 index=main sourcetype="access_combined_wcookie" 
 | transaction JSESSIONID clientip
 ```
 
+### 5.2
 ```
 index=main sourcetype="access_combined_wcookie" 
 | transaction JSESSIONID clientip
 | where duration > 7
 ```
 
+### 5.3
 ```
 index=main sourcetype="access_combined_wcookie" 
 | transaction JSESSIONID clientip
 | timechart avg(duration) as "Average Session Seconds"
 ```
 
+### 5.4
 ```
 index=main sourcetype="access_combined_wcookie" 
 | transaction JSESSIONID clientip
 | timechart span=1h avg(duration) as "Average Session Seconds"
 ```
+<img width="1773" alt="image" src="https://user-images.githubusercontent.com/69359027/222690767-8bca1672-4ae1-4670-96dc-49c0ed99adbf.png">
 
+### 5.5
 ```
 index=main sourcetype="access_combined_wcookie" 
 | transaction JSESSIONID clientip
 | stats max(duration) as "Longest Session"
 ```
+<img width="989" alt="image" src="https://user-images.githubusercontent.com/69359027/222690525-c0fd14d7-2714-4634-8ada-8618716837b1.png">
+
+
+### 5.6
 ```
 index=main sourcetype="access_combined_wcookie" 
 | transaction JSESSIONID clientip startswith="action=view" endswith="action=purchase" 
 | stats count  values(action) values(duration) as durat by JSESSIONID _time 
 | sort -durat
 ```
+<img width="1769" alt="image" src="https://user-images.githubusercontent.com/69359027/222690285-5ac20ea7-4a7a-4963-bca0-5ecc66822ce1.png">
+
+### 5.7 subsearch Report on itemIds for top productIds (top productIds can always be changing and unpredictable)
+```
+index=main sourcetype="access_combined_wcookie" 
+    [ search sourcetype="access_combined_wcookie" 
+    | top 5 productId 
+    | fields productId ]
+| stats count values(itemId) as itemId by productId
+| eval itemId = mvjoin(itemId, ", ")
+```
+<img width="1783" alt="image" src="https://user-images.githubusercontent.com/69359027/222693774-8f76c2cb-bcb3-422f-95b3-c734552e5147.png">
+
+
+### 5.8 append | comparing all yesterday sales with all time sales 
+```
+index=main sourcetype="access_combined_wcookie" action=purchase categoryId=ARCADE earliest="02/27/2023:00:00:00"
+| stats count as "YESTERDAY Sales"
+| append 
+    [search sourcetype=access_combined_wcookie action=purchase categoryId=ARCADE earliest=1
+    | stats count as "ALL time sales"]
+```
+<img width="1786" alt="image" src="https://user-images.githubusercontent.com/69359027/222697345-57430683-3bec-4ed8-98e0-795bee32c6c1.png">
+
+### 5.9 appendcols | overlay the columns 
+```
+index=main sourcetype="access_combined_wcookie" action=purchase categoryId=ARCADE earliest="02/27/2023:00:00:00"
+| stats count as "YESTERDAY Sales"
+| appendcols
+    [search sourcetype=access_combined_wcookie action=purchase categoryId=ARCADE earliest=1
+    | stats count as "ALL time sales"]
+```
+<img width="1786" alt="image" src="https://user-images.githubusercontent.com/69359027/222697902-a07354fb-460c-46a5-9646-eadb97366eb3.png">
+
+
+### 5.10 appendpipe | calculating the subtotals
+```
+index=main sourcetype="access_combined_wcookie" 
+| top 3 itemId by productId showperc=f
+| appendpipe 
+    [ stats sum(count) by productId
+    | eval itemId = "Total of ".productId]
+| sort productId
+```
+<img width="1767" alt="image" src="https://user-images.githubusercontent.com/69359027/222703277-6fe3c43d-8bd2-438e-b092-c78ec412d6ad.png">
+
+### 5.11 lookup | enriching the data
+```
+index=main sourcetype="access_combined_wcookie" action=purchase
+| top 3 productId showperc=f
+| lookup prices.csv productId
+```
+<img width="1776" alt="image" src="https://user-images.githubusercontent.com/69359027/222708531-3f56b3cf-ddc1-40d2-8494-970eed0aa777.png">
+
+
+### 5.12 outputlookup | inputlookup 
+```
+index=_internal log_level=ERROR
+| stats count by component
+| sort -count
+| head 10
+| outputlookup components_error.csv
+```
+<img width="1771" alt="image" src="https://user-images.githubusercontent.com/69359027/222709437-dde8e67b-d32b-4111-8c26-bc8cc7dc9e73.png">
+
+
 
 
 
