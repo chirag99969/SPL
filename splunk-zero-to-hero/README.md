@@ -378,8 +378,42 @@ index=_internal log_level=ERROR
 ```
 <img width="1771" alt="image" src="https://user-images.githubusercontent.com/69359027/222709437-dde8e67b-d32b-4111-8c26-bc8cc7dc9e73.png">
 
+# 6 Creating Dashboards
 
+## 6.1 Creating basic dashboards
+* Demo
 
+## 6.2 Configuring Drilldown
+* Demo
+
+## 6.3 Configuring Dropdown
+* Demo 
+
+### time range picker as dropdown menu
+```
+index=main sourcetype="access_combined_wcookie" action=purchase
+| lookup prices.csv productId 
+| timechart span=1d sum(sale_price) as Total_Revenue
+```
+
+### dropdown for products | main search
+
+```
+index=main sourcetype="access_combined_wcookie" 
+| lookup prices.csv productId 
+| stats sum(sale_price) as Revenue by product_name
+| search product_name = "$tok_product_name$"
+| sort -Revenue
+```
+
+### dropdown for products | dynamic option | search string
+```
+index=main sourcetype="access_combined_wcookie" action=purchase
+| lookup prices.csv productId 
+| stats count by product_name
+```
+
+  
 
 
 
