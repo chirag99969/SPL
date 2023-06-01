@@ -3,8 +3,7 @@
 ```
 |  metadata type=sourcetypes index=botsv1
 ```
-![image](/uploads/c2e5714016fa4728df5c0295411c15d2/image.png)
-
+<img width="1750" alt="image" src="https://github.com/chirag99969/SPL/assets/69359027/3f7336b5-ba43-48e9-a550-59c07cfa5d3a">
 
 
 # 1 EVAL command
@@ -15,7 +14,7 @@
 index=botsv1 sourcetype="stream:tcp"
 | eval MB = round(bytes/(1024*1024))
 ```
-![image](/uploads/d17762ad53ca3f28c3cd98a0617c66dc/image.png)
+<img width="1249" alt="image" src="https://github.com/chirag99969/SPL/assets/69359027/e6c3928a-ed57-4dff-98e9-ee7d4611d2d5">
 
 ### 1.2 UC 
 
@@ -24,9 +23,10 @@ index=botsv1 sourcetype=WinEventLog* EventCode=4624
 | eval Account_Name=upper(Account_Name)
 ```
 * BEFORE
-![image](/uploads/babce5a80e10b71a422877e5c9d12bd5/image.png)
+<img width="1150" alt="image" src="https://github.com/chirag99969/SPL/assets/69359027/7e707f2f-5e0e-4e5c-9e83-ecf6f3e3fd6c">
+
 * AFTER
-![image](/uploads/b348af60b0f7e3bf8465c5d203d72917/image.png)
+<img width="1272" alt="image" src="https://github.com/chirag99969/SPL/assets/69359027/4f23779f-29ee-47a4-9dfe-2353c8508dba">
 
 ### 1.3 UC
 
