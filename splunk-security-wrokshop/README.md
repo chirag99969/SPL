@@ -137,6 +137,18 @@ index=botsv1 sourcetype=win* EventCode=4624
  ```
  <img width="840" alt="image" src="https://github.com/chirag99969/SPL/assets/69359027/58fc46eb-1e0d-41c0-be2e-bea20da6f5d9">
 
+### 2.6 stats values function (unique occurences)
+```
+index=botsv1 sourcetype=win* EventCode=4624 
+ | stats values(Account_Name) as users
+ ```
+ <img width="659" alt="image" src="https://github.com/chirag99969/SPL/assets/69359027/05595826-1a8e-4fa8-ac39-849392e796d3">
+
+### 2.7 stats command values and dictinct count function 
+```
+index=botsv1 sourcetype=win* EventCode=4624 
+ | stats values(Account_Name) as users dc(Account_Name) as "Distinct Users"
+```
  
 
 
