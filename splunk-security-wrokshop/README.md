@@ -149,6 +149,8 @@ index=botsv1 sourcetype=win* EventCode=4624
 index=botsv1 sourcetype=win* EventCode=4624 
  | stats values(Account_Name) as users dc(Account_Name) as "Distinct Users"
 ```
+<img width="1751" alt="image" src="https://github.com/chirag99969/SPL/assets/69359027/626db0a1-8b37-42ae-a09f-65d1565cd86e">
+
  
 
 
