@@ -1,6 +1,6 @@
-# Working Splunk Security Workshop YouTube Video, I will cover data ingestion for security dataset, normalizing the dataset, creating advanced visualizations and Creating Security Dashboards and some advanced splunk topics (coming soon)
+# Working Splunk Security Workshop YouTube Video, I will cover data ingestion for security dataset, normalizing the dataset, creating advanced visualizations and Creating Security Dashboards and some advanced splunk topics (coming soon) (MEANWHILE, all cool SPL Queries below :)
 
-## YouTube channel https://youtu.be/tMacaM1I1CI
+## YouTube channel link https://youtu.be/tMacaM1I1CI
 
 # Add-ons to be installed
 
