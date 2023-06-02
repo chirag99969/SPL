@@ -193,5 +193,59 @@ index=botsv1 sourcetype=iis
 <img width="1772" alt="image" src="https://github.com/chirag99969/SPL/assets/69359027/fe9a0ba8-3a80-4f22-a886-580802788ff9">
 
 
+### 2.13 timechart command
+
+```
+index=botsv1 sourcetype=suricata
+| timechart count by status useother=f limit=15 usenull=f
+```
+<img width="1773" alt="image" src="https://github.com/chirag99969/SPL/assets/69359027/24af9364-37e1-4fa7-ad3b-87b321f6a96f">
+
+### 2.14 addtotals
+
+```
+index=botsv1 sourcetype=fortigate_traffic
+| chart sum(bytes) OVER dstport by srcip useother=f
+| addtotals col=t fieldname="Port Total" labelfield=dstport label="Host Total"
+| fillnull
+```
+<img width="1773" alt="image" src="https://github.com/chirag99969/SPL/assets/69359027/d3e1d1fd-6195-48a7-89e1-0574166b3a33">
+
+### 2.15 dedup deduplicate
+
+```
+index=botsv1 sourcetype=wineventlog
+| table _time, action, host, user
+| dedup host, action
+```
+<img width="1767" alt="image" src="https://github.com/chirag99969/SPL/assets/69359027/2d982a72-2e01-46c8-80e6-4065c03a1682">
+
+### 2.16 Join command
+
+```
+index=botsv1 sourcetype=stream:tcp
+|table _time, dest
+|join dest 
+[ search index=botsv1 sourcetype=fortigate_traffic
+    | stats values(app) as firewall_app by dstip
+    | rename dstip as dest]
+| sort _time
+```
+<img width="1754" alt="image" src="https://github.com/chirag99969/SPL/assets/69359027/c55076b6-f87b-43b8-b571-0ec99363e813">
+
+### 2.17 lookups
+
+```
+| inputlookup windows_signatures_860.csv
+```
+<img width="1754" alt="image" src="https://github.com/chirag99969/SPL/assets/69359027/ecefd072-58df-4b73-9eba-9e557aa51e13">
+
+### 2.18 lookups search
+```
+| inputlookup windows_signatures_860.csv
+|  search signature_id = 624
+```
+<img width="1773" alt="image" src="https://github.com/chirag99969/SPL/assets/69359027/b0c43a08-773b-435d-8129-b45f35bad5fa">
+
 
 
