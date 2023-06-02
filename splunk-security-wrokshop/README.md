@@ -151,6 +151,6 @@ index=botsv1 sourcetype=win* EventCode=4624
 ```
 <img width="1751" alt="image" src="https://github.com/chirag99969/SPL/assets/69359027/626db0a1-8b37-42ae-a09f-65d1565cd86e">
 
- 
+ ![image](/uploads/6c3bff898bb74ef30906889a1b51219d/image.png)
 
 
