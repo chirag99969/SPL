@@ -1,3 +1,7 @@
+# Working Splunk Security Workshop YouTube Video, I will cover data ingestion for security dataset, normalizing the dataset, creating advanced visualizations and Creating Security Dashboards and some advanced splunk topics (coming soon)
+
+## YouTube channel https://youtu.be/tMacaM1I1CI
+
 # Add-ons to be installed
 
 * Fortinet FortiGate Add-On for Splunk (https://splunkbase.splunk.com/app/2846/)
