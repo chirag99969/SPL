@@ -1,4 +1,11 @@
-# Listing sourcetypes
+# Add-ons to be installed
+
+* Fortinet FortiGate Add-On for Splunk (https://splunkbase.splunk.com/app/2846/)
+* TA for Suricata (https://splunkbase.splunk.com/app/4242/)
+* Splunk Add-on for Stream Wire Data (https://splunkbase.splunk.com/app/5234/)
+* Nessus (https://splunkbase.splunk.com/app/5918/)
+
+## Listing sourcetypes
 
 ```
 |  metadata type=sourcetypes index=botsv1
@@ -6,7 +13,7 @@
 <img width="1750" alt="image" src="https://github.com/chirag99969/SPL/assets/69359027/3f7336b5-ba43-48e9-a550-59c07cfa5d3a">
 
 
-# 1 EVAL command
+## 1 EVAL command
 
 ### 1.1 UC
 
