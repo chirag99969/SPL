@@ -151,6 +151,47 @@ index=botsv1 sourcetype=win* EventCode=4624
 ```
 <img width="1751" alt="image" src="https://github.com/chirag99969/SPL/assets/69359027/626db0a1-8b37-42ae-a09f-65d1565cd86e">
 
- ![image](/uploads/6c3bff898bb74ef30906889a1b51219d/image.png)
+### 2.8 stats values fuction and by clause (successful login by hosts)
+```
+index=botsv1 earliest=0 sourcetype=wineventlog* EventCode=4624
+| stats count values(Account_Name) as users by host
+```
+<img width="1751" alt="image" src="https://github.com/chirag99969/SPL/assets/69359027/9557a9fc-2122-4c64-8986-9458c55980e2">
+
+### 2.9 Stats command first function
+
+```
+index=botsv1 sourcetype="fortigate_traffic"  dstip=71.39.18.122
+|        stats first(srcip) as first_attack
+```
+<img width="976" alt="image" src="https://github.com/chirag99969/SPL/assets/69359027/237520d9-7f69-45c7-b492-3a3599e35f19">
+
+### 2.10 convert command ctime function
+
+```
+index=botsv1 sourcetype=fortigate_traffic dstip=71.39.18.122 src_ip=188.243.155.61
+| stats earliest(_time) as first_attack_time
+| convert ctime(first_attack_time)
+```
+<img width="783" alt="image" src="https://github.com/chirag99969/SPL/assets/69359027/c9b77dcd-23a3-4187-a50f-77f138c6d4b5">
+
+### 2.11 eval command along with stats
+
+```
+index=botsv1 sourcetype=iis
+| stats count(eval(sc_status==200)) as successes count(eval(sc_status>200)) as failures
+| eval ratio=round(successes/failures, 1)
+```
+<img width="1766" alt="image" src="https://github.com/chirag99969/SPL/assets/69359027/57e871ac-3396-49a3-b08d-8910f7114076">
+
+### 2.12 chart command
+
+```
+index=botsv1 sourcetype=iis
+| chart count by sc_status, c_ip
+```
+<img width="1772" alt="image" src="https://github.com/chirag99969/SPL/assets/69359027/fe9a0ba8-3a80-4f22-a886-580802788ff9">
+
+
 
 
