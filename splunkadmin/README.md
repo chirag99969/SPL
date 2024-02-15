@@ -17,3 +17,20 @@
 ```
 | makeresults count=1 | eval src="45.128.96.194", result="Malicious" | collect index="ioc" sourcetype="sample"
 ```
+
+
+# Listing all sourcetype for an index
+
+```
+| metadata type=sourcetypes index=node_security
+```
+
+# Coorelation Query using subserach
+
+```
+index=aws sourcetype=aws:cloudtrail [search index=aws sourcetype=aws:cloudwatchlogs:guardduty
+| rename service.action.portProbeAction.portProbeDetails{}.remoteIpDetails.ipAddressV4 as src1
+| fields src1
+| rename src1 as src]
+| table src  _time eventName eventSource userName errorCode aws_account_id
+```
