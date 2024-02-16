@@ -34,3 +34,15 @@ index=aws sourcetype=aws:cloudtrail [search index=aws sourcetype=aws:cloudwatchl
 | rename src1 as src]
 | table src  _time eventName eventSource userName errorCode aws_account_id
 ```
+
+# Coorleation Search 
+
+```
+sourcetype="aws:s3:sys-sshd"
+| rex field=message "\b(?<ip_address>(?:[0-9]{1,3}\.){3}[0-9]{1,3})\b"
+| search ip_address!=""
+| join type=inner ip_address
+    [search sourcetype="aws:cloudwatchlogs:guardduty"
+| rename service.action.portProbeAction.portProbeDetails{}.remoteIpDetails.ipAddressV4 as ip_address]
+| table _time, ip_address, message
+```
