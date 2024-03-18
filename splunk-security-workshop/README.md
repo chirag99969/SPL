@@ -259,3 +259,43 @@ index=botsv1 sourcetype=stream:tcp
 <img width="1773" alt="image" src="https://github.com/chirag99969/SPL/assets/69359027/b0c43a08-773b-435d-8129-b45f35bad5fa">
 
 
+### DDOS host logs | OS logs
+
+```
+index=index_name sourcetype=name
+| rex "(?<message>: .*)"
+| rex field=message ": (?<full_message>.*)"
+| search full_message="*gulatic*"
+| table full_message _time
+| timechart count span=6h
+```
+
+```
+index=* sourcetype=*
+| rex "(?<message>: .*)"
+| rex field=message ": (?<full_message>.*)"
+| search full_message="*gulatic*"
+| rex field=full_message "(?:(?!\d+\.\d+\.\d+\.\d+).)*(?<ip_address>\d+\.\d+\.\d+\.\d+)"
+| eval ip_address = coalesce(ip, ip_address)
+| iplocation ip_address
+| table full_message _time Country
+```
+
+```
+index=* sourcetype=*
+| rex "(?<message>: .*)"
+| rex field=message ": (?<full_message>.*)"
+| search full_message="Disconnected from invalid user*"
+| rex field=full_message "invalid user (?<username>\S+) (?<ip>\d+\.\d+\.\d+\.\d+) port (?<port>\d+)"
+| dedup username
+| timechart count span=1d
+```
+
+```
+index=* sourcetype=* source=/tmp/log.tgz:./var/log/auth.*
+|  rex "(?<message>: .*)"
+|  rex field=message ": (?<full_message>.*)"
+| rex field=full_message "port (?<port>\d+) \[(?<action>\w+)\]"
+| rex field=full_message "(?<ip>\d+\.\d+\.\d+\.\d+)"
+| table full_message port ip _time
+```
