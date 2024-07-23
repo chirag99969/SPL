@@ -18,6 +18,27 @@ sudo service splunk start
 ```
 
 
+# iptables
+
+```
+# Install iptables
+sudo apt-get update
+sudo apt-get install iptables
+
+# list Rules
+iptables -L -v
+
+# Commands to Block
+ sudo iptables -A OUTPUT -d 3.208.215.234 -j REJECT
+ sudo iptables -A OUTPUT -d 3.223.109.193 -j REJECT
+ sudo iptables -A OUTPUT -d 3.225.203.212 -j REJECT
+
+# To make it persist
+sudo apt-get install iptables-persistent
+sudo netfilter-persistent save
+
+```
+
 # Splunk admin REST Queries
 
 ```
