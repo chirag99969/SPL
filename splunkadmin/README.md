@@ -87,3 +87,15 @@ sourcetype="aws:s3:sys-sshd"
 | rename service.action.portProbeAction.portProbeDetails{}.remoteIpDetails.ipAddressV4 as ip_address]
 | table _time, ip_address, message
 ```
+
+#### Data Ingestion per sourcetype in GBs
+
+```
+index=_internal source=*metrics.log earliest=-4d | eval GB=kb/(1024*1024) | search group="per_sourcetype_thruput" | timechart span=1d sum(GB) by series limit=40
+```
+
+#### Disk Space Utilization for indexers 
+
+```
+| rest splunk_server=* /services/server/status/partitions-space | eval usage = round((capacity - free) / 1024, 2) | eval capacity = round(capacity / 1024, 2) | eval compare_usage = usage." / ".capacity | eval pct_usage = round(usage / capacity * 100, 2)  | table updated, splunk_server, mount_point, fs_type, capacity, compare_usage, pct_usage | rename mount_point as "Mount Point", fs_type as "File System Type", compare_usage as "Disk Usage (GB)", capacity as "Capacity (GB)", pct_usage as "Disk Usage (%)" | sort splunk_server
+```
