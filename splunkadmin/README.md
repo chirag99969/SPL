@@ -178,3 +178,20 @@ FORMAT = nullQueue
 DEST_KEY = queue
 ```
 
+# props.conf gor guardduty
+
+* props.conf for sourcetype aws:cloudwatchlogs:guardduty
+
+* Existing configuration/Workable one
+
+```
+[aws:cloudwatchlogs:guardduty]
+LINE_BREAKER=(([\r\n]+)|(?={"schemaVersion":"[\d.]+","accountId":))
+SHOULD_LINEMERGE = false
+NO_BINARY_CHECK = false
+TRUNCATE = 8388608
+TIME_PREFIX = \"updatedAt\"\s*\:\s*\"
+TIME_FORMAT = %Y-%m-%dT%H:%M:%S%Z
+MAX_TIMESTAMP_LOOKAHEAD = 40
+KV_MODE = json
+```
