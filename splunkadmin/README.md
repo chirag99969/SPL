@@ -134,7 +134,7 @@ TRANSFORMS-aws_eks = set_aws_json, set_aws_auth, drop_aws_kubeapiserver, drop_aw
 
 ##### transforms.conf
 
-````
+```
 [set_aws_json]
 SOURCE_KEY = MetaData:Source
 #REGEX = ^s3://bucketName/gc02-ore/*/*/*/*-*/kube-apiserver-audit-*
