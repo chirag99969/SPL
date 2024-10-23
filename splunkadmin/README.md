@@ -177,6 +177,22 @@ REGEX = source="s3://([a-z-0-9]+)/([a-z0-9_\.-]+)/\d{4}/\d{2}/\d{2}/\d{2}-\d{2}/
 FORMAT = nullQueue
 DEST_KEY = queue
 ```
+# props and transforms WORKING OKAY
+
+## props
+```
+[aws:s3:route53]
+TRANSFORMS-aws_route53 = aws_route53_test
+```
+
+## transforms
+```
+[aws_route53_test]
+SOURCE_KEY = MetaData:Source
+REGEX = s3:\/\/[a-z1-9-.]+\/AWSLogs\/(\d{12})\/*
+FORMAT = sourcetype::aws:route53:test
+DEST_KEY = MetaData:Sourcetype
+```
 
 # props.conf gor guardduty
 
