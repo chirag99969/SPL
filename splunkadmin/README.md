@@ -211,3 +211,51 @@ TIME_FORMAT = %Y-%m-%dT%H:%M:%S%Z
 MAX_TIMESTAMP_LOOKAHEAD = 40
 KV_MODE = json
 ```
+
+# OLD DATA 
+
+```
+chirag@cloudshell:~ (my-gcp-project-id)$ gcloud compute instances detach-disk secops-demo1 --disk=secops-demo1
+Did you mean zone [asia-southeast1-b] for instance: [secops-demo1] (Y/n)?  n
+
+No zone specified. Using zone [us-central1-c] for instance: [secops-demo1].
+ERROR: (gcloud.compute.instances.detach-disk) Could not fetch resource:
+ - Invalid resource usage: 'To detach the boot disk, the instance must be in TERMINATED state.'.
+
+chirag@cloudshell:~ (my-gcp-project-id)$ gcloud compute instances detach-disk secops-demo1 --disk=secops-demo1 --zone us-central1-c
+ERROR: (gcloud.compute.instances.detach-disk) Could not fetch resource:
+ - Invalid resource usage: 'To detach the boot disk, the instance must be in TERMINATED state.'.
+
+chirag@cloudshell:~ (my-gcp-project-id)$ gcloud compute disks snapshot secops-demo1 \
+  --snapshot-names=splunk-data-snapshot \
+  --zone=us-central1-c
+Creating snapshot(s) splunk-data-snapshot...done.                                                                                           
+chirag@cloudshell:~ (my-gcp-project-id)$ gcloud compute disks create splunk-data-copy \
+  --source-snapshot=splunk-data-snapshot \
+  --zone=us-central1-c
+
+
+^C
+
+Command killed by keyboard interrupt
+
+
+chirag@cloudshell:~ (my-gcp-project-id)$ gcloud compute disks create splunk-data-copy   --source-snapshot=splunk-data-snapshot   --zone=us-central1-c
+ERROR: (gcloud.compute.disks.create) Could not fetch resource:
+ - The resource 'projects/my-gcp-project-id/zones/us-central1-c/disks/splunk-data-copy' already exists
+
+chirag@cloudshell:~ (my-gcp-project-id)$ gcloud compute disks create splunk-data-copy1   --source-snapshot=splunk-data-snapshot   --zone=us-central1-c
+Created [https://www.googleapis.com/compute/v1/projects/my-gcp-project-id/zones/us-central1-c/disks/splunk-data-copy1].
+NAME: splunk-data-copy1
+ZONE: us-central1-c
+SIZE_GB: 100
+TYPE: pd-standard
+STATUS: READY
+chirag@cloudshell:~ (my-gcp-project-id)$ gcloud compute instances attach-disk secops-demo3 \
+  --disk=splunk-data-copy1 \
+  --zone=us-central1-c
+Updated [https://www.googleapis.com/compute/v1/projects/my-gcp-project-id/zones/us-central1-c/instances/secops-demo3].
+chirag@cloudshell:~ (my-gcp-project-id)$
+
+```
+
