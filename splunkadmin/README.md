@@ -259,3 +259,47 @@ chirag@cloudshell:~ (my-gcp-project-id)$
 
 ```
 
+### OPTION 1
+
+```
+# Create a mount point
+sudo mkdir -p /mnt/old-vm-disk
+
+# Mount the main partition from the attached disk (sdb1)
+sudo mount /dev/sdb1 /mnt/old-vm-disk
+
+# Verify the Splunk directory is there
+ls -la /mnt/old-vm-disk/opt/splunk
+
+# Download and install Splunk
+wget -O splunk-latest.tgz "https://download.splunk.com/products/splunk/releases/latest/linux/splunk-latest-linux-x86_64.tgz"
+sudo tar -xzf splunk-latest.tgz -C /opt
+
+[volume:old_data]
+path = /mnt/old-vm-disk/opt/splunk/var/lib/splunk
+
+[main]
+homePath = volume:old_data/defaultdb/db/db
+coldPath = volume:old_data/defaultdb/db/colddb
+thawedPath = $SPLUNK_DB/defaultdb/thaweddb
+
+```
+
+### OPTION 2
+```
+# Install Splunk first
+wget -O splunk-latest.tgz "https://download.splunk.com/products/splunk/releases/latest/linux/splunk-latest-linux-x86_64.tgz"
+sudo tar -xzf splunk-latest.tgz -C /opt
+
+# Stop Splunk if it's running
+sudo /opt/splunk/bin/splunk stop
+
+# Copy the indexed data (this preserves permissions)
+sudo rsync -avz /mnt/old-vm-disk/opt/splunk/var/lib/splunk/ /opt/splunk/var/lib/splunk/
+
+# Copy configurations if needed
+sudo rsync -avz /mnt/old-vm-disk/opt/splunk/etc/ /opt/splunk/etc/
+
+# Set proper ownership
+sudo chown -R splunk:splunk /opt/splunk
+```
